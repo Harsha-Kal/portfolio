@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sree Harsha Kalavagunta — Software Engineer, AI Systems &amp; Robotics</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Instrument Serif, Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            obsidian: {
+              900: '#121215',
+              950: '#09090b',
+            },
+            alabaster: {
+              50: '#fbfaf8',
+              100: '#f5f3ef',
+            }
+          },
+          animation: {
+            'float-slow': 'floatSlow 14s ease-in-out infinite',
+            'float-reverse': 'floatReverse 18s ease-in-out infinite',
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
+              '50%': { transform: 'translate3d(24px, -18px, 0) scale(1.05)' },
+            },
+            floatReverse: {
+              '0%, 100%': { transform: 'translate3d(0, 0, 0) scale(1)' },
+              '50%': { transform: 'translate3d(-20px, 22px, 0) scale(0.96)' },
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Subtle Editorial Film Grain Overlay */
+    .grain-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+    }
+    .dark .grain-overlay {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.045'/%3E%3C/svg%3E");
+    }
+
+    /* Interactive Cursor Spotlight Cards */
+    .spotlight-card {
+      position: relative;
+      --mouse-x: 50%;
+      --mouse-y: 50%;
+    }
+    .spotlight-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: radial-gradient(
+        480px circle at var(--mouse-x) var(--mouse-y),
+        rgba(217, 119, 6, 0.35),
+        transparent 45%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .dark .spotlight-card::before {
+      background: radial-gradient(
+        480px circle at var(--mouse-x) var(--mouse-y),
+        rgba(251, 191, 36, 0.38),
+        transparent 45%
+      );
+    }
+    .spotlight-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(
+        520px circle at var(--mouse-x) var(--mouse-y),
+        rgba(245, 158, 11, 0.06),
+        transparent 45%
+      );
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+    .dark .spotlight-card::after {
+      background: radial-gradient(
+        520px circle at var(--mouse-x) var(--mouse-y),
+        rgba(251, 191, 36, 0.07),
+        transparent 45%
+      );
+    }
+    .spotlight-card:hover::before,
+    .spotlight-card:hover::after {
+      opacity: 1;
+    }
+
+    /* Smooth Scroll Reveal */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-item.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-alabaster-50 text-stone-900 dark:bg-obsidian-950 dark:text-stone-100 font-sans antialiased transition-colors duration-300 selection:bg-amber-500/20 selection:text-amber-800 dark:selection:text-amber-300 overflow-x-hidden">
+
+  <!-- Grain Texture & Animated Ambient Mesh Gradients -->
+  <div class="pointer-events-none fixed inset-0 -z-20 grain-overlay"></div>
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="animate-float-slow absolute -top-32 left-1/4 h-[28rem] w-[28rem] rounded-full bg-amber-400/[0.11] dark:bg-amber-500/[0.08] blur-[110px]"></div>
+    <div class="animate-float-reverse absolute top-40 right-1/6 h-[24rem] w-[24rem] rounded-full bg-orange-300/[0.10] dark:bg-indigo-500/[0.07] blur-[120px]"></div>
+  </div>
+
+  <!-- Floating Glassmorphic Pill Navigation -->
+  <header class="sticky top-3 z-40 px-4 sm:px-6">
+    <div class="mx-auto flex max-w-5xl items-center justify-between rounded-2xl border border-stone-200/80 dark:border-stone-800/80 bg-alabaster-50/75 dark:bg-obsidian-900/75 px-4 py-2.5 shadow-sm backdrop-blur-xl">
+      <a href="#top" class="flex items-center gap-2.5 group">
+        <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-stone-900 to-stone-700 text-stone-50 dark:from-stone-100 dark:to-stone-300 dark:text-stone-950 font-mono text-xs font-semibold tracking-tight shadow-sm transition-transform group-hover:scale-105">
+          SHK
+        </span>
+        <span class="hidden sm:inline font-medium text-sm tracking-tight text-stone-800 dark:text-stone-200">
+          Sree Harsha Kalavagunta
+        </span>
+      </a>
+
+      <nav class="flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm font-medium text-stone-600 dark:text-stone-400">
+        <a href="#projects" class="rounded-xl px-3 py-1.5 hover:bg-stone-200/60 dark:hover:bg-stone-800/70 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">Projects</a>
+        <a href="#stack" class="rounded-xl px-3 py-1.5 hover:bg-stone-200/60 dark:hover:bg-stone-800/70 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">Stack</a>
+        <a href="#experience" class="rounded-xl px-3 py-1.5 hover:bg-stone-200/60 dark:hover:bg-stone-800/70 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">Leadership</a>
+        <a href="https://github.com/Harsha-Kal" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" class="ml-1 inline-flex items-center gap-1.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-stone-900/90 px-3 py-1.5 text-xs font-mono text-stone-800 dark:text-stone-200 hover:border-amber-500/60 dark:hover:border-amber-400/50 transition-colors">
+          <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+          <span>GitHub</span>
+        </a>
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" type="button" aria-label="Toggle color theme" class="ml-0.5 flex h-8 w-8 items-center justify-center rounded-xl border border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-stone-900/90 text-stone-700 dark:text-stone-300 hover:border-amber-500/60 dark:hover:border-amber-400/50 transition-colors cursor-pointer">
+          <svg id="icon-sun" class="hidden h-4 w-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <svg id="icon-moon" class="h-4 w-4 text-stone-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="mx-auto max-w-5xl px-4 sm:px-6">
+
+    <!-- Editorial Split Hero Section -->
+    <section class="py-14 sm:py-20 border-b border-stone-200/80 dark:border-stone-800/80">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <!-- Left Editorial Intro -->
+        <div class="lg:col-span-7">
+          <div class="inline-flex items-center gap-2.5 rounded-full border border-amber-500/30 dark:border-amber-400/25 bg-amber-500/[0.07] dark:bg-amber-400/[0.08] px-3.5 py-1.5 text-xs font-mono text-amber-900 dark:text-amber-300 mb-6">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            <span>Open to 2027 SWE &amp; AI/ML Internships · Boulder / Fort Collins, CO</span>
+          </div>
+
+          <h1 class="font-serif text-5xl sm:text-6xl md:text-[4.25rem] font-normal tracking-tight text-stone-900 dark:text-stone-50 leading-[1.03]">
+            Sree Harsha <span class="italic text-amber-700 dark:text-amber-400">Kalavagunta</span>
+          </h1>
+
+          <p class="mt-4 font-mono text-xs sm:text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400">
+            Full-Stack Engineering · Applied AI Systems · Embedded Robotics
+          </p>
+
+          <p class="mt-5 max-w-xl text-base sm:text-lg leading-relaxed text-stone-600 dark:text-stone-300">
+            Computer Science &amp; Business undergraduate at <span class="font-medium text-stone-900 dark:text-stone-100">CU Boulder (’28)</span> building resilient software and hardware outside the classroom—from hackathon-winning energy grid optimizers to vision-guided dual-MCU robotics.
+          </p>
+
+          <!-- Primary CTAs -->
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href="#projects" class="inline-flex items-center gap-2 rounded-xl bg-stone-900 dark:bg-stone-100 px-5 py-3 text-sm font-semibold text-white dark:text-stone-950 shadow-sm hover:bg-stone-800 dark:hover:bg-white transition-all">
+              <span>Explore Selected Work</span>
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </a>
+            <a href="https://github.com/Harsha-Kal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-obsidian-900/80 px-4 py-3 text-sm font-medium text-stone-800 dark:text-stone-200 hover:border-amber-500/60 dark:hover:border-amber-400/50 transition-all">
+              <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+              <span>github.com/Harsha-Kal</span>
+            </a>
+            <button type="button" onclick="copyEmail()" class="inline-flex items-center gap-2 rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-100/70 dark:bg-stone-900/60 px-4 py-3 text-xs font-mono text-stone-700 dark:text-stone-300 hover:border-amber-500/60 dark:hover:border-amber-400/50 transition-all cursor-pointer">
+              <svg class="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              <span>sreeharshakalavagunta@gmail.com</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Interactive Developer Telemetry Card -->
+        <div class="lg:col-span-5">
+          <div class="spotlight-card rounded-2xl border border-stone-200/90 dark:border-stone-800/90 bg-white/80 dark:bg-obsidian-900/80 p-5 sm:p-6 shadow-lg backdrop-blur-md">
+            <!-- Window Top Bar -->
+            <div class="flex items-center justify-between border-b border-stone-200/70 dark:border-stone-800/80 pb-3.5">
+              <div class="flex items-center gap-1.5">
+                <span class="h-2.5 w-2.5 rounded-full bg-rose-400/80"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-amber-400/80"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/80"></span>
+                <span class="ml-2 font-mono text-[11px] text-stone-500 dark:text-stone-400">harsha@cu-boulder:~/builds</span>
+              </div>
+              <span class="rounded-md bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-medium text-emerald-700 dark:text-emerald-400">
+                ACTIVE
+              </span>
+            </div>
+
+            <!-- Structured Snapshot -->
+            <div class="mt-4 space-y-3 font-mono text-xs">
+              <div class="rounded-xl bg-stone-100/80 dark:bg-stone-950/70 p-3.5 border border-stone-200/60 dark:border-stone-800/70">
+                <p class="text-stone-400 dark:text-stone-500">// education &amp; focus</p>
+                <p class="mt-1 text-stone-800 dark:text-stone-200">
+                  <span class="text-amber-700 dark:text-amber-400">degree:</span> "B.S. CS + Business Minor"
+                </p>
+                <p class="text-stone-800 dark:text-stone-200">
+                  <span class="text-amber-700 dark:text-amber-400">grad:</span> "May 2028 · CU Boulder"
+                </p>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2.5 text-center">
+                <div class="rounded-xl border border-stone-200/70 dark:border-stone-800/80 bg-white/70 dark:bg-stone-950/60 p-3">
+                  <p class="font-serif text-2xl text-stone-900 dark:text-stone-50">2nd</p>
+                  <p class="mt-0.5 text-[10px] text-stone-500 dark:text-stone-400">HackCU 12</p>
+                </div>
+                <div class="rounded-xl border border-stone-200/70 dark:border-stone-800/80 bg-white/70 dark:bg-stone-950/60 p-3">
+                  <p class="font-serif text-2xl text-stone-900 dark:text-stone-50">7+</p>
+                  <p class="mt-0.5 text-[10px] text-stone-500 dark:text-stone-400">Shipped Builds</p>
+                </div>
+                <div class="rounded-xl border border-stone-200/70 dark:border-stone-800/80 bg-white/70 dark:bg-stone-950/60 p-3">
+                  <p class="font-serif text-2xl text-stone-900 dark:text-stone-50">30+</p>
+                  <p class="mt-0.5 text-[10px] text-stone-500 dark:text-stone-400">Peers Mentored</p>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-1 text-[11px] text-stone-500 dark:text-stone-400">
+                <span>Filter: Independent &amp; Hackathon Only</span>
+                <span class="text-amber-700 dark:text-amber-400">0 Coursework</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Bento Project Showcase -->
+    <section id="projects" class="py-16 sm:py-20 border-b border-stone-200/80 dark:border-stone-800/80">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-5">
+        <div>
+          <p class="font-mono text-xs uppercase tracking-widest text-amber-700 dark:text-amber-400">01 · Selected Work</p>
+          <h2 class="mt-1.5 font-serif text-4xl sm:text-5xl font-normal tracking-tight text-stone-900 dark:text-stone-50">
+            Independent &amp; Hackathon Builds
+          </h2>
+          <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 max-w-xl">
+            Curated open-source software, AI rapid prototypes, interactive physics games, and embedded robotics from <span class="font-mono text-xs">github.com/Harsha-Kal</span>.
+          </p>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div id="filter-bar" class="flex flex-wrap gap-2" role="tablist" aria-label="Filter projects by category">
+          <button type="button" data-filter="all" class="filter-btn active rounded-xl px-3.5 py-2 text-xs font-semibold transition-all bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-950 shadow-sm cursor-pointer">
+            All (7)
+          </button>
+          <button type="button" data-filter="fullstack-ai" class="filter-btn rounded-xl px-3.5 py-2 text-xs font-medium transition-all border border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-obsidian-900/80 text-stone-700 dark:text-stone-300 hover:border-amber-500/50 dark:hover:border-amber-400/50 cursor-pointer">
+            Full-Stack &amp; AI
+          </button>
+          <button type="button" data-filter="robotics" class="filter-btn rounded-xl px-3.5 py-2 text-xs font-medium transition-all border border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-obsidian-900/80 text-stone-700 dark:text-stone-300 hover:border-amber-500/50 dark:hover:border-amber-400/50 cursor-pointer">
+            Robotics &amp; Hardware
+          </button>
+          <button type="button" data-filter="games" class="filter-btn rounded-xl px-3.5 py-2 text-xs font-medium transition-all border border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-obsidian-900/80 text-stone-700 dark:text-stone-300 hover:border-amber-500/50 dark:hover:border-amber-400/50 cursor-pointer">
+            Games &amp; Interactive
+          </button>
+          <button type="button" data-filter="hackathons" class="filter-btn rounded-xl px-3.5 py-2 text-xs font-medium transition-all border border-stone-200 dark:border-stone-800 bg-white/80 dark:bg-obsidian-900/80 text-stone-700 dark:text-stone-300 hover:border-amber-500/50 dark:hover:border-amber-400/50 cursor-pointer">
+            Hackathons
+          </button>
+        </div>
+      </div>
+
+      <!-- Bento Project Cards Grid -->
+      <div id="projects-grid" class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- Technical Stack Bento Section -->
+    <section id="stack" class="py-16 sm:py-20 border-b border-stone-200/80 dark:border-stone-800/80">
+      <p class="font-mono text-xs uppercase tracking-widest text-amber-700 dark:text-amber-400">02 · Capabilities</p>
+      <h2 class="mt-1.5 font-serif text-4xl sm:text-5xl font-normal tracking-tight text-stone-900 dark:text-stone-50">
+        Technical Stack
+      </h2>
+      <p class="mt-2 text-sm text-stone-600 dark:text-stone-400 max-w-2xl">
+        Languages, full-stack cloud infrastructure, and applied AI/embedded hardware toolchains powering my builds.
+      </p>
+
+      <div class="mt-9 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Languages -->
+        <div class="spotlight-card reveal-item rounded-2xl border border-stone-200/90 dark:border-stone-800/90 bg-white/80 dark:bg-obsidian-900/70 backdrop-blur-md p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5 text-stone-900 dark:text-stone-100 font-semibold text-base">
+              <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/12 text-amber-700 dark:text-amber-400 font-mono text-xs font-semibold">{ }</span>
+              <h3>Languages</h3>
+            </div>
+            <span class="font-mono text-[11px] text-stone-400">01</span>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">Python</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">Java</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">C++</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">Scala</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">SQL</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">JavaScript</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">HTML/CSS</span>
+          </div>
+        </div>
+
+        <!-- Full-Stack & Cloud -->
+        <div class="spotlight-card reveal-item rounded-2xl border border-stone-200/90 dark:border-stone-800/90 bg-white/80 dark:bg-obsidian-900/70 backdrop-blur-md p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5 text-stone-900 dark:text-stone-100 font-semibold text-base">
+              <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/12 text-amber-700 dark:text-amber-400 font-mono text-xs font-semibold">&lt;/&gt;</span>
+              <h3>Full-Stack &amp; Cloud</h3>
+            </div>
+            <span class="font-mono text-[11px] text-stone-400">02</span>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">React</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">Next.js</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">FastAPI</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">Node.js</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">PostgreSQL</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">Docker</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">REST APIs</span>
+          </div>
+        </div>
+
+        <!-- AI, Data & Robotics -->
+        <div class="spotlight-card reveal-item rounded-2xl border border-stone-200/90 dark:border-stone-800/90 bg-white/80 dark:bg-obsidian-900/70 backdrop-blur-md p-6 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2.5 text-stone-900 dark:text-stone-100 font-semibold text-base">
+              <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/12 text-amber-700 dark:text-amber-400 font-mono text-xs font-semibold">AI/HW</span>
+              <h3>AI, Data &amp; Robotics</h3>
+            </div>
+            <span class="font-mono text-[11px] text-stone-400">03</span>
+          </div>
+          <div class="mt-5 flex flex-wrap gap-2">
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">LLM/RAG Integration</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">Gemini API</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">XGBoost</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">pandas</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">OpenCV</span>
+            <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-3 py-1.5 font-mono text-xs text-stone-800 dark:text-stone-200">ESP32-S3 / Raspberry Pi</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience & Leadership Spotlight -->
+    <section id="experience" class="py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-amber-700 dark:text-amber-400">03 · Community &amp; Mentorship</p>
+      <h2 class="mt-1.5 font-serif text-4xl sm:text-5xl font-normal tracking-tight text-stone-900 dark:text-stone-50">
+        Experience &amp; Leadership
+      </h2>
+      <p class="mt-2 text-sm text-stone-600 dark:text-stone-400">
+        B.S. in Computer Science &amp; Business Minor · University of Colorado Boulder (Expected May 2028)
+      </p>
+
+      <div class="mt-9 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Engineering Peer Leader -->
+        <article class="spotlight-card reveal-item rounded-2xl border border-stone-200/90 dark:border-stone-800/90 bg-white/80 dark:bg-obsidian-900/70 backdrop-blur-md p-6 sm:p-7 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-bold text-stone-900 dark:text-stone-50">Engineering Peer Leader</h3>
+                <p class="text-sm font-medium text-amber-700 dark:text-amber-400">CU Boulder College of Engineering</p>
+              </div>
+              <span class="rounded-lg border border-stone-200/80 dark:border-stone-700/80 bg-stone-100/80 dark:bg-stone-800/80 px-2.5 py-1 font-mono text-xs text-stone-600 dark:text-stone-300 whitespace-nowrap">
+                Aug 2025 – Dec 2025
+              </span>
+            </div>
+            <ul class="mt-4 space-y-2.5 text-sm text-stone-600 dark:text-stone-300 leading-relaxed list-disc pl-4">
+              <li>Mentored <span class="font-semibold text-stone-900 dark:text-stone-100">30+ incoming engineering students</span> through structured weekly sessions covering technical study strategies, degree planning, and campus resources.</li>
+              <li>Collaborated with engineering faculty to facilitate interactive workshops, driving a <span class="font-semibold text-stone-900 dark:text-stone-100">20% measurable increase</span> in classroom participation and peer collaboration.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Kappa Theta Pi -->
+        <article class="spotlight-card reveal-item rounded-2xl border border-stone-200/90 dark:border-stone-800/90 bg-white/80 dark:bg-obsidian-900/70 backdrop-blur-md p-6 sm:p-7 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h3 class="text-lg font-bold text-stone-900 dark:text-stone-50">Active Member</h3>
+                <p class="text-sm font-medium text-amber-700 dark:text-amber-400">Kappa Theta Pi (KTP) · Professional Tech Fraternity</p>
+              </div>
+              <span class="rounded-lg border border-stone-200/80 dark:border-stone-700/80 bg-stone-100/80 dark:bg-stone-800/80 px-2.5 py-1 font-mono text-xs text-stone-600 dark:text-stone-300 whitespace-nowrap">
+                Fall 2024 – Present
+              </span>
+            </div>
+            <ul class="mt-4 space-y-2.5 text-sm text-stone-600 dark:text-stone-300 leading-relaxed list-disc pl-4">
+              <li>Selected member of CU Boulder’s premier co-ed professional technology fraternity focused on software engineering craftsmanship and peer mentorship.</li>
+              <li>Participate in technical build nights, peer code reviews, hackathon team formation, and industry career workshops.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Minimalist Footer -->
+  <footer class="border-t border-stone-200/80 dark:border-stone-800/80 bg-white/50 dark:bg-obsidian-900/50 backdrop-blur-md">
+    <div class="mx-auto flex max-w-5xl flex-col sm:flex-row items-center justify-between gap-4 px-4 sm:px-6 py-8 text-sm text-stone-600 dark:text-stone-400">
+      <div class="flex items-center gap-2.5">
+        <span class="font-mono text-xs font-semibold text-stone-900 dark:text-stone-100">SHK</span>
+        <span>·</span>
+        <span>Sree Harsha Kalavagunta · Boulder / Fort Collins, CO</span>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="https://github.com/Harsha-Kal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-obsidian-900 px-3.5 py-2 text-xs font-mono text-stone-800 dark:text-stone-200 hover:border-amber-500/50 dark:hover:border-amber-400/50 transition-colors">
+          <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+          <span>github.com/Harsha-Kal</span>
+        </a>
+        <button type="button" id="copy-email-btn" onclick="copyEmail()" class="inline-flex items-center gap-1.5 rounded-xl bg-stone-900 dark:bg-stone-100 px-3.5 py-2 text-xs font-mono font-semibold text-white dark:text-stone-950 hover:bg-stone-800 dark:hover:bg-white transition-colors cursor-pointer">
+          <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+          <span id="copy-email-label">Copy Email</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Project Architecture Modal -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-stone-950/65 backdrop-blur-md p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="relative w-full max-w-2xl rounded-2xl border border-stone-200 dark:border-stone-800 bg-alabaster-50 dark:bg-obsidian-900 p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <span id="modal-badge" class="inline-block rounded-lg bg-amber-500/15 px-2.5 py-1 font-mono text-xs font-medium text-amber-800 dark:text-amber-300"></span>
+          <h3 id="modal-title" class="mt-2 font-serif text-2xl sm:text-3xl font-normal text-stone-900 dark:text-stone-50"></h3>
+        </div>
+        <button type="button" id="close-modal-btn" aria-label="Close architecture details" class="rounded-xl p-2 text-stone-500 hover:bg-stone-200/70 dark:hover:bg-stone-800 transition-colors cursor-pointer">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+      </div>
+
+      <div class="mt-6 space-y-4 text-sm leading-relaxed text-stone-700 dark:text-stone-300">
+        <div class="rounded-xl border border-stone-200/80 dark:border-stone-800 bg-white/80 dark:bg-obsidian-950/70 p-4">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-1.5">01 · Problem Statement</h4>
+          <p id="modal-problem"></p>
+        </div>
+
+        <div class="rounded-xl border border-stone-200/80 dark:border-stone-800 bg-white/80 dark:bg-obsidian-950/70 p-4">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-1.5">02 · System Architecture</h4>
+          <p id="modal-architecture"></p>
+        </div>
+
+        <div class="rounded-xl border border-stone-200/80 dark:border-stone-800 bg-white/80 dark:bg-obsidian-950/70 p-4">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-1.5">03 · Outcome &amp; Impact</h4>
+          <p id="modal-impact"></p>
+        </div>
+
+        <div class="pt-1">
+          <h4 class="font-mono text-xs uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-2">Tech Stack</h4>
+          <div id="modal-tags" class="flex flex-wrap gap-2"></div>
+        </div>
+      </div>
+
+      <div class="mt-7 flex flex-wrap items-center justify-end gap-3 border-t border-stone-200 dark:border-stone-800 pt-5">
+        <button type="button" id="modal-close-footer" class="rounded-xl border border-stone-300 dark:border-stone-700 px-4 py-2.5 text-xs font-medium text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors cursor-pointer">
+          Close
+        </button>
+        <a id="modal-repo-link" href="https://github.com/Harsha-Kal" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-xl bg-stone-900 dark:bg-stone-100 px-4 py-2.5 text-xs font-mono font-semibold text-white dark:text-stone-950 hover:bg-stone-800 dark:hover:bg-white transition-colors">
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+          <span>Open on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2.5 rounded-xl border border-stone-700 bg-stone-900 px-4 py-2.5 text-xs font-mono text-stone-100 shadow-xl">
+    <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+    <span id="toast-message">Copied sreeharshakalavagunta@gmail.com</span>
+  </div>
+
+  <!-- Hidden Textarea for iFrame-Safe Clipboard Copy -->
+  <textarea id="clipboard-buffer" class="sr-only" aria-hidden="true">sreeharshakalavagunta@gmail.com</textarea>
+
+  <script>
+    // Curated Independent, Hackathon, and Personal Open-Source Projects ONLY
+    const PROJECTS = [
+      {
+        id: 'volt-wise',
+        featured: true,
+        title: 'Volt-Wise: Advisory-First Grid Optimization',
+        badge: 'HackCU 12 · 2nd Place Overall & Best Beginner Hack',
+        categories: ['fullstack-ai', 'hackathons'],
+        summary: 'Full-stack residential energy platform protecting Colorado homeowners from Time-of-Use utility rate spikes and peak demand charges through custom utility simulations and Gemini 1.5 Flash AI.',
+        problem: 'Colorado residential utilities enforce steep Time-of-Use (TOU) rate spikes and monthly peak demand charge penalties when high-draw appliances (EV chargers, HVAC, dryers) overlap without clear homeowner visibility.',
+        architecture: 'Engineered a custom Python utility simulation backend ("Colorado Engine") paired with a relational SQLite database for user authentication and appliance load logs, a responsive JavaScript/HTML/CSS interface, and Gemini 1.5 Flash AI integration for real-time load-shifting advisories.',
+        impact: 'Awarded 2nd Place Overall and Best Beginner Hack out of 100+ competing teams at HackCU 12; delivered actionable cost forecasts and interactive peak-shaving schedules.',
+        tech: ['Python', 'JavaScript', 'HTML/CSS', 'SQLite', 'Gemini 1.5 Flash AI'],
+        repoUrl: 'https://github.com/Harsha-Kal/Volt-Wise',
+        repoLabel: 'Harsha-Kal/Volt-Wise'
+      },
+      {
+        id: 'obamabot',
+        featured: false,
+        title: 'Obamabot ("Predator Bot"): Autonomous Vision-Guided Robot',
+        badge: 'Embedded Robotics & Computer Vision',
+        categories: ['robotics'],
+        summary: 'Dual-microcontroller robotics prototype pairing an ESP32-S3 camera module with a Raspberry Pi Pico W XRP chassis for real-time human detection, target tracking, and web telemetry.',
+        problem: 'Low-cost educational robotics platforms often lack onboard vision processing and low-latency remote telemetry needed for autonomous human detection and closed-loop target tracking.',
+        architecture: 'Integrated a Freenove ESP32-S3 camera module running C++ firmware and OpenCV vision pipelines with an XRP Raspberry Pi Pico W chassis, bridged by dual-MCU serial communication and a live browser telemetry/control interface.',
+        impact: 'Achieved real-time human detection and autonomous heading adjustments with wireless video and telemetry streaming from a compact dual-MCU architecture.',
+        tech: ['C++', 'Python', 'ESP32-S3', 'Raspberry Pi Pico W', 'OpenCV'],
+        repoUrl: 'https://github.com/Harsha-Kal',
+        repoLabel: 'github.com/Harsha-Kal'
+      },
+      {
+        id: 'safe-home',
+        featured: false,
+        title: 'SafeHome: Intelligent Residential Safety & Alert System',
+        badge: 'IoT & Computer Vision Safety',
+        categories: ['fullstack-ai', 'robotics'],
+        summary: 'Automated home security monitoring and real-time anomaly notification platform combining computer vision streams, event-driven hazard detection, and instant homeowner alerts.',
+        problem: 'Conventional home security setups often rely on fragmented sensor feeds and delayed manual verification, leaving residents without unified real-time hazard context or automated escalation.',
+        architecture: 'Built a Python-based computer vision and event-monitoring pipeline that processes live telemetry, detects anomalous activity in real time, and dispatches instant homeowner notifications alongside a live status dashboard.',
+        impact: 'Delivered an end-to-end residential safety prototype unifying real-time visual monitoring, automated incident triage, and low-latency alerts.',
+        tech: ['Python', 'IoT / Computer Vision', 'Real-Time Alerts', 'REST APIs'],
+        repoUrl: 'https://github.com/Harsha-Kal',
+        repoLabel: 'github.com/Harsha-Kal'
+      },
+      {
+        id: 'orbwars',
+        featured: false,
+        title: 'OrbWars: Real-Time Multiplayer Arena Game',
+        badge: 'Multiplayer Engine & Vector Physics',
+        categories: ['games', 'fullstack-ai'],
+        summary: 'Fast-paced competitive browser arena combat game featuring a 60 FPS HTML5 Canvas loop, custom vector collision physics, and low-latency multiplayer state synchronization.',
+        problem: 'Browser-based multiplayer arena games often suffer from input lag, desynchronized entity positions, and sluggish frame pacing when scaling real-time combat across concurrent clients.',
+        architecture: 'Engineered a custom HTML5 Canvas rendering loop paired with an event-driven WebSocket state synchronization layer, deterministic vector collision physics, ability cooldowns, and live leaderboard updates.',
+        impact: 'Delivered smooth, responsive competitive arena gameplay with real-time entity state reconciliation and zero-install cross-device playability.',
+        tech: ['JavaScript', 'HTML5 Canvas', 'WebSockets', 'State Sync'],
+        repoUrl: 'https://github.com/Harsha-Kal',
+        repoLabel: 'github.com/Harsha-Kal'
+      },
+      {
+        id: 'swish-io',
+        featured: false,
+        title: 'Swish.io: Interactive Arcade & Sports Physics Web App',
+        badge: 'Custom 2D Physics Simulation',
+        categories: ['games'],
+        summary: 'Browser-based arcade basketball game with continuous projectile trajectory arcs, rim collision impulse resolution, streak multipliers, and responsive mouse/touch controls.',
+        problem: 'Casual web sports games frequently feel rigid when projectile arcs, rim bounce restitution, and touch/mouse aiming lack continuous physical modeling.',
+        architecture: 'Built a custom 2D rigid-body and projectile trajectory engine in vanilla JavaScript on HTML5 Canvas, modeling gravity, air drag, rim bounce restitution, and unified mouse/touch gesture input.',
+        impact: 'Created an intuitive, cross-device arcade basketball experience with fluid trajectory feedback and consistent frame pacing across desktop and mobile screens.',
+        tech: ['JavaScript', 'HTML5 Canvas', 'Custom 2D Physics Engine', 'CSS3'],
+        repoUrl: 'https://github.com/Harsha-Kal',
+        repoLabel: 'github.com/Harsha-Kal'
+      },
+      {
+        id: 'achievemate',
+        featured: false,
+        title: 'AchieveMate: Goal Tracking & Productivity Companion',
+        badge: 'Full-Stack Productivity Web App',
+        categories: ['fullstack-ai'],
+        summary: 'Structured goal execution and habit companion that decomposes long-term objectives into hierarchical milestones with streak analytics and visual progress tracking.',
+        problem: 'Ambitious personal and technical goals often stall when users lack a clear system to break high-level objectives into daily habits and measure consistency over time.',
+        architecture: 'Designed a full-stack web application featuring hierarchical milestone trees, daily check-in workflows, streak calculation logic, and clean progress visualizations backed by persistent relational storage.',
+        impact: 'Enabled structured goal execution with real-time completion metrics, streak accountability, and an uncluttered interface built for daily momentum.',
+        tech: ['Python', 'JavaScript', 'SQLite', 'REST APIs', 'HTML/CSS'],
+        repoUrl: 'https://github.com/Harsha-Kal',
+        repoLabel: 'github.com/Harsha-Kal'
+      },
+      {
+        id: 'gloo-ai',
+        featured: false,
+        title: 'Gloo AI Hackathon — Team GrowthAI Prototype',
+        badge: 'Gloo AI Hackathon · Boulder, CO (Oct 2025)',
+        categories: ['fullstack-ai', 'hackathons'],
+        summary: 'AI-driven workflow automation and growth intelligence prototype rapidly engineered during the Gloo AI Hackathon in Boulder, CO.',
+        problem: 'Organizations struggle to synthesize fragmented engagement signals into structured, personalized growth workflows without heavy manual triage.',
+        architecture: 'Built a Python backend orchestrating Large Language Model inference pipelines and external REST APIs to ingest context, generate tailored action plans, and surface structured recommendations in a clean web workflow.',
+        impact: 'Shipped a working end-to-end AI workflow prototype under hackathon time constraints in Boulder, CO, demonstrating rapid LLM orchestration and API integration.',
+        tech: ['Python', 'LLM Integration', 'REST APIs', 'Rapid Prototyping'],
+        repoUrl: 'https://github.com/Harsha-Kal',
+        repoLabel: 'github.com/Harsha-Kal'
+      }
+    ];
+
+    const projectsGrid = document.getElementById('projects-grid');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const modal = document.getElementById('project-modal');
+    let activeFilter = 'all';
+
+    function renderProjects(filter) {
+      const filtered = filter === 'all'
+        ? PROJECTS
+        : PROJECTS.filter(p => p.categories.includes(filter));
+
+      projectsGrid.innerHTML = filtered.map(project => {
+        const spanClass = (project.featured && filter === 'all') ? 'md:col-span-2' : 'md:col-span-1';
+        return `
+          <article class="spotlight-card reveal-item is-visible ${spanClass} group rounded-2xl border border-stone-200/90 dark:border-stone-800/90 bg-white/80 dark:bg-obsidian-900/75 backdrop-blur-md p-6 sm:p-7 shadow-sm hover:border-amber-500/50 dark:hover:border-amber-400/45 hover:shadow-md transition-all flex flex-col justify-between">
+            <div>
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <span class="inline-flex items-center gap-1.5 rounded-lg bg-amber-500/12 dark:bg-amber-400/12 px-2.5 py-1 font-mono text-[11px] font-medium text-amber-800 dark:text-amber-300">
+                  ${project.badge}
+                </span>
+                <a href="${project.repoUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 font-mono text-xs text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors">
+                  <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+                  <span>${project.repoLabel}</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+
+              <h3 class="mt-3.5 font-serif text-2xl sm:text-[1.65rem] font-normal tracking-tight text-stone-900 dark:text-stone-50 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors leading-snug">
+                ${project.title}
+              </h3>
+
+              <p class="mt-2.5 text-sm leading-relaxed text-stone-600 dark:text-stone-300">
+                ${project.summary}
+              </p>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-stone-100 dark:border-stone-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex flex-wrap gap-1.5">
+                ${project.tech.map(t => `
+                  <span class="rounded-lg border border-stone-200 dark:border-stone-700/80 bg-stone-50 dark:bg-stone-800/70 px-2.5 py-1 font-mono text-[11px] text-stone-700 dark:text-stone-300">
+                    ${t}
+                  </span>
+                `).join('')}
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0">
+                <button type="button" onclick="openProjectModal('${project.id}')" class="inline-flex items-center gap-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white dark:bg-obsidian-900 px-3.5 py-2 text-xs font-medium text-stone-800 dark:text-stone-200 hover:border-amber-500/60 dark:hover:border-amber-400/50 transition-colors cursor-pointer">
+                  <span>Architecture</span>
+                  <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </button>
+                <a href="${project.repoUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 rounded-xl bg-stone-900 dark:bg-stone-100 px-3.5 py-2 text-xs font-mono font-semibold text-white dark:text-stone-950 hover:bg-stone-800 dark:hover:bg-white transition-colors">
+                  <span>Repo</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      attachSpotlightListeners();
+    }
+
+    // Cursor Spotlight Tracking on Cards
+    function attachSpotlightListeners() {
+      document.querySelectorAll('.spotlight-card').forEach(card => {
+        if (card.dataset.spotlightBound) return;
+        card.dataset.spotlightBound = 'true';
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+      });
+    }
+
+    // Filter Pill Handlers
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeFilter = btn.getAttribute('data-filter');
+        filterButtons.forEach(b => {
+          b.classList.remove('active', 'bg-stone-900', 'text-white', 'dark:bg-stone-100', 'dark:text-stone-950', 'font-semibold', 'shadow-sm');
+          b.classList.add('border', 'border-stone-200', 'dark:border-stone-800', 'bg-white/80', 'dark:bg-obsidian-900/80', 'text-stone-700', 'dark:text-stone-300', 'font-medium');
+        });
+        btn.classList.add('active', 'bg-stone-900', 'text-white', 'dark:bg-stone-100', 'dark:text-stone-950', 'font-semibold', 'shadow-sm');
+        btn.classList.remove('border', 'border-stone-200', 'dark:border-stone-800', 'bg-white/80', 'dark:bg-obsidian-900/80', 'text-stone-700', 'dark:text-stone-300', 'font-medium');
+        renderProjects(activeFilter);
+      });
+    });
+
+    // Modal Controls
+    function openProjectModal(projectId) {
+      const project = PROJECTS.find(p => p.id === projectId);
+      if (!project) return;
+
+      document.getElementById('modal-badge').textContent = project.badge;
+      document.getElementById('modal-title').textContent = project.title;
+      document.getElementById('modal-problem').textContent = project.problem;
+      document.getElementById('modal-architecture').textContent = project.architecture;
+      document.getElementById('modal-impact').textContent = project.impact;
+      document.getElementById('modal-repo-link').href = project.repoUrl;
+      document.getElementById('modal-tags').innerHTML = project.tech.map(t => `
+        <span class="rounded-lg border border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 px-2.5 py-1 font-mono text-xs text-stone-800 dark:text-stone-200">
+          ${t}
+        </span>
+      `).join('');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeProjectModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('close-modal-btn').addEventListener('click', closeProjectModal);
+    document.getElementById('modal-close-footer').addEventListener('click', closeProjectModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeProjectModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeProjectModal();
+      }
+    });
+
+    // Dark / Light Mode Toggle
+    const themeToggle = document.getElementById('theme-toggle');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+        iconSun.classList.remove('hidden');
+        iconMoon.classList.add('hidden');
+      } else {
+        document.documentElement.classList.remove('dark');
+        iconSun.classList.add('hidden');
+        iconMoon.classList.remove('hidden');
+      }
+    }
+
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(prefersDark);
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = !document.documentElement.classList.contains('dark');
+      applyTheme(isDark);
+    });
+
+    // Scroll Reveal Observer
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal-item').forEach(el => revealObserver.observe(el));
+
+    // Reliable Clipboard Copy using execCommand('copy') + Toast Feedback
+    function copyEmail() {
+      const buffer = document.getElementById('clipboard-buffer');
+      buffer.classList.remove('sr-only');
+      buffer.select();
+      buffer.setSelectionRange(0, 99999);
+      try {
+        document.execCommand('copy');
+      } catch (err) {
+        // Silent fallback
+      }
+      buffer.classList.add('sr-only');
+
+      const label = document.getElementById('copy-email-label');
+      if (label) {
+        label.textContent = 'Copied!';
+        setTimeout(() => { label.textContent = 'Copy Email'; }, 2000);
+      }
+
+      const toast = document.getElementById('toast');
+      toast.classList.remove('hidden');
+      toast.classList.add('flex');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.add('hidden');
+        toast.classList.remove('flex');
+      }, 2400);
+    }
+
+    // Initialize Cards & Spotlights
+    renderProjects('all');
+    attachSpotlightListeners();
+  </script>
+</body>
+</html>
